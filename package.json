@@ -1,0 +1,33 @@
+{
+  "name": "shopping-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@stripe/stripe-js": "^7.1.0",
+    "axios": "^1.9.0",
+    "bcryptjs": "^3.0.1",
+    "body-parser": "^2.2.0",
+    "coinpayments": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.9",
+    "nowpayments-api": "^1.0.1",
+    "path": "^0.12.7",
+    "qs": "^6.14.0",
+    "stripe": "^18.0.0"
+  }
+}
