@@ -1,14 +1,15 @@
 {
   "name": "shopping-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend for Shopping Store",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",               // for Vercel
+    "dev": "nodemon server.js",              // for local development
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["shopping", "backend", "ecommerce", "express", "vercel"],
+  "author": "Abdur Rahman",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -24,10 +25,12 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.0",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.1.9",
     "nowpayments-api": "^1.0.1",
     "path": "^0.12.7",
     "qs": "^6.14.0",
     "stripe": "^18.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
