@@ -10,7 +10,7 @@ const app = express();
 // ✅ Allowed origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://your-vercel-frontend.vercel.app', // <-- yahan apna frontend URL daalein
+  'https://my-shopping-store-backend.vercel.app', // <-- yahan apna frontend URL daalein
 ];
 
 // ✅ CORS configuration
