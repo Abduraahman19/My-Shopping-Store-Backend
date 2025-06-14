@@ -5,30 +5,33 @@ const cors = require('cors');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 
-const app = express();
+const paypalRoutes = require('./routes/paypalRoutes');
 
-// ✅ Allowed origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://my-shopping-store-backend.vercel.app', // <-- yahan apna frontend URL daalein
+  'https://551a-2400-adc7-12a-6900-5827-423c-829f-8ceb.ngrok-free.app',
 ];
 
-// ✅ CORS configuration
-app.use(cors({
+const app = express();
+
+// Enhanced CORS configuration
+app.use(cors()); // Allows all origins — not recommended for production
+
+// Handle preflight requests
+app.options('*', cors({
   origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key'],
   credentials: true
 }));
-app.options('*', cors()); // For preflight
 
-// ✅ Middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ✅ MongoDB Connection
+// Connect to MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI, {
@@ -42,7 +45,7 @@ const connectDB = async () => {
   }
 };
 
-// ✅ Import Routes
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const subCategoryRoutes = require('./routes/subCategoryRoutes');
@@ -51,9 +54,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const cryptoRoutes = require('./routes/cryptoRoutes');
-const paypalRoutes = require('./routes/paypalRoutes');
 
-// ✅ Route Usage
 app.use('/api/auth', authRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', subCategoryRoutes);
@@ -62,9 +63,9 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/crypto', cryptoRoutes);
-app.use('/api/paypal', paypalRoutes);
+app.use('/api/paypal', paypalRoutes); // Added PayPal routes
 
-// ✅ Health Check Routes
+// Health check routes
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -81,29 +82,31 @@ app.get('/api/crypto/health', (req, res) => {
   });
 });
 
-// ✅ Logger
+// Request logging
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
-// ✅ Error Handler
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// ✅ Start Server (Local only)
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
-  connectDB().then(() => {
+// Start server
+const PORT = process.env.PORT || 5000;
+const startServer = async () => {
+  try {
+    await connectDB();
     app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}/api`);
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`🔗 API Base URL: http://localhost:${PORT}/api`);
     });
-  });
-} else {
-  connectDB(); // Vercel mein port nahi chahiye
-}
+  } catch (err) {
+    console.error('❌ Server Startup Error:', err);
+    process.exit(1);
+  }
+};
 
-// ✅ Export app for Vercel
-module.exports = app;
+startServer();
