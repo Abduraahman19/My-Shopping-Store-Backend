@@ -14,7 +14,7 @@
   "type": "commonjs",
   "dependencies": {
     "@stripe/stripe-js": "^7.1.0",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "bcryptjs": "^3.0.1",
     "body-parser": "^2.2.0",
     "coinpayments": "^2.2.0",
